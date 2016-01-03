@@ -40,13 +40,22 @@ class AI(QGraphicsView):
         self.pixelsPerDeg = self.height()/60.0 #This makes about 30 deg appear on instrument
         self.scene = QGraphicsScene(0,0,sceneWidth, sceneHeight)
         #Draw the Blue and Brown rectangles
+        gradientBlue = QLinearGradient(0, 0, 0, sceneHeight / 2)
+        gradientBlue.setColorAt(0.7, QColor(0, 51, 102))
+        gradientBlue.setColorAt(1.0, QColor(51, 153, 255))
+        gradientBlue.setSpread(0)
         pen = QPen(QColor(Qt.blue))
-        brush = QBrush(QColor(Qt.blue))
-        self.scene.addRect(0, 0, sceneWidth, sceneHeight/2, pen, brush) 
+        brush = QBrush(gradientBlue)
+        self.scene.addRect(0, 0, sceneWidth, sceneHeight / 2, pen, brush)
         self.setScene(self.scene)
-        pen = QPen(QColor(160, 82, 45)) #Brown Color
-        brush = QBrush(QColor(160, 82, 45))
-        self.scene.addRect(0, sceneHeight/2+1, sceneWidth,sceneHeight, pen, brush) 
+        gradientBrown = QLinearGradient(0, sceneHeight / 2, 0, sceneHeight)
+        gradientBrown.setColorAt(0.0, QColor(105, 46, 1))
+        gradientBrown.setColorAt(0.2, QColor(244, 164, 96))
+        gradientBrown.setSpread(0)
+        pen = QPen(QColor(160, 82, 45))  # Brown Color
+        brush = QBrush(gradientBrown)
+        self.scene.addRect(0, sceneHeight / 2 + 1, sceneWidth, sceneHeight,
+                           pen, brush)
         self.setScene(self.scene)
         #Draw the main horizontal line
         pen = QPen(QColor(Qt.white))
