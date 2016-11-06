@@ -18,9 +18,10 @@
 
 import sys
 import argparse
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
-import PyQt4.Qt
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import (QWidget, QApplication, QPushButton, QSlider, QSpinBox)
+import PyQt5.Qt
 
 import config
 import fix
@@ -77,7 +78,7 @@ class FlightData(QObject):
         elif param.name == "Vertical Speed":
             self.vsChanged.emit(param.value)
         else:
-            print param.name, "=", param.value
+            print (param.name, "=", param.value)
 
 class MainWindow(QWidget):
     def __init__(self, parent=None):
@@ -99,7 +100,7 @@ class MainWindow(QWidget):
         
     def resizeEvent(self, e):
         instWidth = self.height()/2
-        print self.width(), self.height()
+        print (self.width(), self.height())
         
         self.a.resize(instWidth,instWidth)
         self.a.move((self.width()-200)/3*1,0)
@@ -208,7 +209,7 @@ class MainWindow(QWidget):
         self.egt.value = 1350
         
     def nextScreen(b):
-        print "Button Pushed"
+        print ("Button Pushed")
 
 def main(test):
     if not test:

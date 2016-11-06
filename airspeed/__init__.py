@@ -15,9 +15,11 @@
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  
 import sys
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
-import PyQt4.Qt
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import (QWidget, QGraphicsView, QGraphicsScene)
+
+import PyQt5.Qt
 import math
 
 class Airspeed(QWidget):
@@ -226,7 +228,7 @@ class Airspeed_Tape(QGraphicsView):
         return self._airspeed 
 
     def setAirspeed(self, airspeed):
-        print airspeed
+        print(airspeed)
         if airspeed != self._airspeed:
             self._airspeed = airspeed
             self.redraw()

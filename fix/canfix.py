@@ -553,14 +553,14 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     if args.print_info == True:
-        print "CANFIX Protocol Version " + version
-        print "Groups:"
+        print ("CANFIX Protocol Version " + version)
+        print ("Groups:")
         for each in groups:
-            print "  %s %d-%d" % (each["name"], each["startid"], each["endid"])
+            print ("  %s %d-%d" % (each["name"], each["startid"], each["endid"]))
         
-        print "Parameters:"
+        print ("Parameters:")
         for each in parameters:
-            print parameters[each]
+            print (parameters[each])
 
     if args.test:
         import canbus
@@ -581,16 +581,16 @@ if __name__ == "__main__":
         frames.append(canbus.Frame(1773, [1, 2, 3, 4, 5]))
         for f in frames:
             p = parseFrame(f)
-            print '-'
-            print str(f)
-            print str(p)
+            print ('-')
+            print (str(f))
+            print (str(p))
         
         na = NodeAlarm()
         na.node = 4
         na.alarm = 0x2345
         na.data = [1, 2, 3, 4]
-        print na
-        print na.frame
+        print (na)
+        print (na.frame)
        
         p = Parameter()
         #p.identifier = 0x1
@@ -604,13 +604,13 @@ if __name__ == "__main__":
         #p.meta = "Max"
         p.meta = 4
         
-        print p
-        print p.getFrame()
+        print (p)
+        print (p.getFrame())
         
         tw = TwoWayMsg()
         tw.channel = 0
         tw.data = [9, 10, 11, 12, 13, 14, 15, 16]
-        print tw
-        print tw.frame
+        print (tw)
+        print (tw.frame)
         
         

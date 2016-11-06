@@ -18,7 +18,7 @@
 from exceptions import *
 import serial
 import time
-#from serial.tools.list_ports import comports
+from serial.tools.list_ports import comports
 
 class Adapter():
     """Class that represents an EasySync USB2-F-7x01 USB to CANBus adapter"""
@@ -61,7 +61,7 @@ class Adapter():
             
         self.ser = serial.Serial(self.portname, 115200, timeout=self.timeout)
                 
-        print "Reseting USB2-F-7x01"
+        print ("Reseting USB2-F-7x01")
         self.ser.write("R\r")
         try:
             result = self.__readResponse()
@@ -71,7 +71,7 @@ class Adapter():
             raise BusInitError("Unable to Reset USB2-F-7x01")
         time.sleep(2)
 
-        print "Setting Bit Rate"
+        print ("Setting Bit Rate")
         self.ser.write(bitrates[self.bitrate])
         try:
             result = self.__readResponse()
@@ -85,7 +85,7 @@ class Adapter():
         self.close()
 
     def open(self):
-        print "Opening CAN Port"
+        print ("Opening CAN Port")
         self.ser.write("O\r")
         try:
             result = self.__readResponse()
@@ -95,7 +95,7 @@ class Adapter():
             raise BusInitError("Unable to Open CAN Port")
 
     def close(self):
-        print "Closing CAN Port"
+        print ("Closing CAN Port")
         self.ser.write("C\r")
         try:
             result = self.__readResponse()
@@ -105,7 +105,7 @@ class Adapter():
             raise BusInitError("Unable to Close CAN Port")
 
     def error(self):
-        print "Closing CAN Port"
+        print ("Closing CAN Port")
         self.ser.write("F\r")
         try:
             result = self.__readResponse()
@@ -133,7 +133,7 @@ class Adapter():
             if result[0] == 't':
                 continue
             elif result != 'z\r':
-                print "result =", result
+                print ("result =", result)
                 raise BusWriteError("Bad response from USB2-F-7x01")
             else:
                 break
@@ -141,7 +141,7 @@ class Adapter():
 
     def recvFrame(self):
         result = self.__readResponse()
-        print result, 
+        print (result, )
         if result[0] != 't':
             raise BusReadError("Unknown response from USB2-F-7x01")
         frame = {}
@@ -149,5 +149,5 @@ class Adapter():
         frame['data'] = []
         for n in range(int(result[4], 16)):
             frame['data'].append(int(result[5+n*2:7+n*2], 16))
-        print frame
+        print (frame)
         return frame

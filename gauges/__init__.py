@@ -16,9 +16,9 @@
 
 import sys
 import math
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
-import PyQt4.Qt
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+import PyQt5.Qt
 import efis
 
 def drawCircle(p, x, y, r, start, end):

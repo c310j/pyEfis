@@ -15,8 +15,9 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from exceptions import *
-import Queue
+
+
+import queue
 import random
 import time
 import struct
@@ -177,29 +178,29 @@ class Adapter():
         self.name = "CAN Device Simulator"
         self.shortname = "simulate"
         self.type = "None"
-        self.__rQueue = Queue.Queue()
+        self.__rQueue = queue.Queue()
         random.seed()
         self.nodes = configNodes()
     
     def connect(self, config):
-        print "Connecting to simulation adapter"
+        print ("Connecting to simulation adapter")
         self.open()    
     
     def disconnect(self):
-        print "Disconnecting from simulation adapter"
+        print ("Disconnecting from simulation adapter")
         self.close()
         
     def open(self):
-        print "Opening CAN Port"
+        print ("Opening CAN Port")
 
     def close(self):
-        print "Closing CAN Port"
+        print ("Closing CAN Port")
 
     def error(self):
-        print "Closing CAN Port"
+        print ("Closing CAN Port")
 
     def sendFrame(self, frame):
-        print "sendFrame() Called"
+        print ("sendFrame() Called")
         if frame.id < 0 or frame.id > 2047:
             raise ValueError("Frame ID out of range")
         else:
@@ -209,7 +210,7 @@ class Adapter():
                     self.__rQueue.put(result)
 
     def recvFrame(self):
-        print "recvFrame() Called"
+        print ("recvFrame() Called")
         for each in self.nodes:
             result = each.getFrame()
             if result:
@@ -217,8 +218,8 @@ class Adapter():
             
         try:
             return self.__rQueue.get(timeout = 0.25)
-        except Queue.Empty:
-            raise DeviceTimeout()
+        except queue.Empty:
+            raise TimeoutError
         
                 
         

@@ -17,12 +17,14 @@
 # This module is to abstract the interface between the code and the
 # CANBus communication adapters.
 
-
 from exceptions import *
+
 import serial
 import threading
-import Queue
-import time
+import queue
+import config
+
+c
 
 # Import and add each Adapter class from the files.  There may be a way
 # to do this in a loop but for now this will work.
@@ -30,6 +32,7 @@ import simulate
 import canfixusb
 import easy
 import network
+
 
 def getSerialPortList():
     # Scan for available ports.
@@ -69,7 +72,7 @@ class SendThread(threading.Thread):
             try:
                 frame = self.sendQueue.get(timeout = 0.5)
                 self.adapter.sendFrame(frame)
-            except Queue.Empty:
+            except queue.Empty:
                 pass
             except BusError:
                 # TODO: Should handle some of these
@@ -99,14 +102,14 @@ class RecvThread(threading.Thread):
             except DeviceTimeout:
                 pass
             except BusError:
-                print "BussError"
+                print ("BussError")
                 # TODO: Should probably handle some of these.
                 pass
             finally:
                 if(self.getout):
                     break
                 #print "Receive Thread", adapterIndex
-        print "End of the Receive thread"
+        print ("End of the Receive thread")
         
     def quit(self):
         self.getout = True
@@ -129,8 +132,8 @@ class Connection(object):
         self.ipaddress = '127.0.0.1'
         self.port = 63349 #NEFIX on keypad
         self.timeout = 0.25
-        self.sendQueue = Queue.Queue()
-        self.recvQueue = Queue.Queue()
+        self.sendQueue = queue.Queue()
+        self.recvQueue = queue.Queue()
         
         
     def connect(self):
@@ -187,5 +190,5 @@ class Connection(object):
         try:
             frame = self.recvQueue.get(timeout = timeout)
             return frame
-        except Queue.Empty:
+        except queue.Empty:
             raise DeviceTimeout()

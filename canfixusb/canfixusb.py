@@ -16,10 +16,11 @@
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from exceptions import *
+
 import serial
 import time
 import canbus
-#from serial.tools.list_ports import comports
+from serial.tools.list_ports import comports
 
 class Adapter():
     """Class that represents an the Open Source CAN-FIX-it USB to CANBus adapter"""
@@ -35,7 +36,7 @@ class Adapter():
         while 1:
             x = self.ser.read()
             if len(x) == 0:
-                raise DeviceTimeout
+                raise  DeviceTimeout()
             else:
                 s = s + x
                 if x == '\n':
@@ -74,7 +75,7 @@ class Adapter():
             self.portname = config.device
         except KeyError:
             self.portname = comports[0][0]
-            print "Setting Port to default" + self.portname
+            print ("Setting Port to default" + self.portname)
         try:
             self.timeout = config.timeout
         except KeyError:
@@ -83,9 +84,9 @@ class Adapter():
         try:
             self.ser = serial.Serial(self.portname, 115200, timeout=self.timeout)
             
-            print "Reseting CAN-FIX-it"
+            print ("Reseting CAN-FIX-it")
             self.__sendCommand("K")
-            print "Setting Bit Rate"
+            print ("Setting Bit Rate")
             self.__sendCommand(bitrates[self.bitrate])
             self.open()
         except BusReadError:
@@ -95,11 +96,11 @@ class Adapter():
         self.close()
 
     def open(self):
-        print "Opening CAN Port"
+        print ("Opening CAN Port")
         self.__sendCommand("O")
         
     def close(self):
-        print "Closing CAN Port"
+        print ("Closing CAN Port")
         self.__sendCommand("C")
 
     def error(self):

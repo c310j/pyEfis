@@ -64,7 +64,7 @@ class Fix(threading.Thread):
                     if self._parameterCallback:
                         self._parameterCallback(cfobj)
                     else:
-                        print frame
+                        print (frame)
             except canbus.exceptions.DeviceTimeout:
                 pass
             except canbus.exceptions.BusError:
@@ -74,7 +74,7 @@ class Fix(threading.Thread):
             finally:
                 if(self.getout):
                     break
-        print "End of the FIX Thread"
+        print ("End of the FIX Thread")
         self.can.disconnect()
     
     def quit(self):
