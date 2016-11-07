@@ -24,7 +24,6 @@ import threading
 import queue
 import config
 
-c
 
 # Import and add each Adapter class from the files.  There may be a way
 # to do this in a loop but for now this will work.
@@ -81,7 +80,7 @@ class SendThread(threading.Thread):
                 if(self.getout):
                     break
                 #print "Send Thread", adapterIndex
-        print "End of the Send Thread"
+        print ("End of the Send Thread")
     
     def quit(self):
         self.getout = True
@@ -143,7 +142,7 @@ class Connection(object):
             self.adapter = canfixusb.Adapter()
         elif self.adapterString.lower() == 'easy':
             self.adapter = easy.Adapter()
-        elif self.adapterString.lower() == 'netowrk':
+        elif self.adapterString.lower() == 'network':
             self.adapter = network.Adapter()
         else:
             raise IndexError("Undefined CANBus Adapter " + str(adapter))

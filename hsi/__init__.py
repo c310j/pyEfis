@@ -17,6 +17,7 @@
 import sys
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from PyQt5.QtWidgets import (QWidget, QGraphicsView, QGraphicsScene)
 import PyQt5.Qt
 import math
 import efis

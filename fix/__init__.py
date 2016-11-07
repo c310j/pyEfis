@@ -33,7 +33,7 @@ class Parameter(object):
         self.annunciate = False
 
 class Fix(threading.Thread):
-    def __init__(self, adapter=None, device=None, bitrate=125):
+    def __init__(self, adapter: object = None, device: object = None, bitrate: object = 125) -> object:
         threading.Thread.__init__(self)
         self.getout = False
         self.adapter = adapter

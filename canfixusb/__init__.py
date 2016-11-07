@@ -1,4 +1,4 @@
-#  CAN-FIX Utilities - An Open Source CAN FIX Utility Package 
+#  CAN-FIX Utilities - An Open Source CAN FIX Utility Package
 #  Copyright (c) 2013 Phil Birkelbach
 #
 #  This program is free software; you can redistribute it and/or modify
@@ -20,36 +20,40 @@ from exceptions import *
 import serial
 import time
 import canbus
+import config
+
 from serial.tools.list_ports import comports
+
 
 class Adapter():
     """Class that represents an the Open Source CAN-FIX-it USB to CANBus adapter"""
+
     def __init__(self):
         self.name = "CAN-FIX-it USB Adapter"
         self.shortname = "canfixusb"
         self.type = "serial"
         self.ser = None
-        
+
     def __readResponse(self, ch):
         s = ""
 
         while 1:
             x = self.ser.read()
             if len(x) == 0:
-                raise  DeviceTimeout()
+                raise DeviceTimeout()
             else:
                 s = s + x
                 if x == '\n':
-                    if s[0] == ch.lower(): # Good Response
+                    if s[0] == ch.lower():  # Good Response
                         return s
-                    if s[0] == "*": # Error
+                    if s[0] == "*":  # Error
                         raise BusReadError("Error " + s[1] + " Returned")
 
-    def __sendCommand(self, command, attempts = 3):
-        n = 0 #attempt counter
+    def __sendCommand(self, command, attempts=3):
+        n = 0  # attempt counter
         if command[-1] != '\n':
             command = command + '\n'
-        
+
         while True:
             self.ser.write(command)
             try:
@@ -62,45 +66,44 @@ class Adapter():
                 if n == attempts:
                     raise BusReadError("Unable to send Command " + command)
                 time.sleep(self.timeout)
-            n+=1
-        
-        
+            n += 1
+
     def connect(self, config):
         try:
             self.bitrate = config.bitrate
         except KeyError:
             self.bitrate = 125
-        bitrates = {125:"B125\n", 250:"B250\n", 500:"B500\n", 1000:"B1000\n"}
+        bitrates = {125: "B125\n", 250: "B250\n", 500: "B500\n", 1000: "B1000\n"}
         try:
             self.portname = config.device
         except KeyError:
             self.portname = comports[0][0]
-            print ("Setting Port to default" + self.portname)
+            print("Setting Port to default" + self.portname)
         try:
             self.timeout = config.timeout
         except KeyError:
             self.timeout = 0.25
-        
+
         try:
             self.ser = serial.Serial(self.portname, 115200, timeout=self.timeout)
-            
-            print ("Reseting CAN-FIX-it")
+
+            print("Reseting CAN-FIX-it")
             self.__sendCommand("K")
-            print ("Setting Bit Rate")
+            print("Setting Bit Rate")
             self.__sendCommand(bitrates[self.bitrate])
             self.open()
         except BusReadError:
             raise BussInitError("Unable to Initialize CAN Port")
-    
+
     def disconnect(self):
         self.close()
 
     def open(self):
-        print ("Opening CAN Port")
+        print("Opening CAN Port")
         self.__sendCommand("O")
-        
+
     def close(self):
-        print ("Closing CAN Port")
+        print("Closing CAN Port")
         self.__sendCommand("C")
 
     def error(self):
@@ -126,11 +129,11 @@ class Adapter():
 
     def recvFrame(self):
         result = self.__readResponse("R")
-        
+
         if result[0] != 'r':
             raise BusReadError("Unknown response from Adapter")
-        data= []
-        for n in range((len(result)-5)/2):
-            data.append(int(result[5+n*2:7+n*2], 16))
+        data = []
+        for n in range((len(result) - 5) / 2):
+            data.append(int(result[5 + n * 2:7 + n * 2], 16))
         frame = canbus.Frame(int(result[1:4], 16), data)
         return frame

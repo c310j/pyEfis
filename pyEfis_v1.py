@@ -20,7 +20,8 @@ import sys
 import argparse
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-import PyQt4.Qt
+from PyQt5.QtWidgets import (QWidget, QApplication, QSlider, QSpinBox, QMainWindow)
+import PyQt5.Qt
 
 import config
 import fix

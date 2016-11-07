@@ -17,9 +17,7 @@
 import sys
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from PyQt5.QtWidgets import (QWidget, QGraphicsView, QGraphicsScene)
-import PyQt5.Qt
-import math
+from PyQt5.QtWidgets import (QWidget)
 
 class VSI(QWidget):
     def __init__(self, parent=None):
@@ -59,7 +57,7 @@ class VSI(QWidget):
         p.rotate(-90)
         p.drawLine(longLine)
         p.drawText(textRect,Qt.AlignHCenter|Qt.AlignVCenter, '0')
-        for each in range(1, tickCount+1):
+        for each in range(1, int(tickCount+1)):
             p.rotate(tickAngle)
             if each % 10 == 0:
                 p.drawLine(longLine)
@@ -70,7 +68,7 @@ class VSI(QWidget):
         p.save()
         p.translate(self.center)
         p.rotate(-90)
-        for each in range(1, tickCount+1):
+        for each in range(1, int(tickCount+1)):
             p.rotate(-tickAngle)
             if each % 10 == 0:
                 p.drawLine(longLine)
